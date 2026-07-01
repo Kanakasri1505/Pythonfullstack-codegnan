@@ -1,0 +1,123 @@
+DAY-1
+===============
+FRONT:-
+1.the part of the website that the user interacts with directly is called frontend.
+2.In frontend it is also referred as client side of the application.
+3.It includes everything that user experience directly.
+4.HTML, CSS, JS, Bootstrap are the languages used for frontend development.
+
+BACKEND:-
+=========
+1.Backend is the server side of the website.
+2.It stores and arranges the data also make sure everything on the client side of the web site works fine.
+3. In backend there are some languages like java, python, php,..net..etc.
+API
+====
+It means application programming interface . which is the collection of communication protocols used by various programs to communicate between them.
+
+Storage Areas
+=============
+as part of our applications we required to store data like customer information, or billing information, calls information etc...
+
+to store this data we required storage area.
+there are two types of storage areas such as
+1.Temporary storage Areas.
+2.Permanent storage areas.
+
+1.Temporary Storage areas:
+===========================
+these are the memory areas where the data will be stored temporarily.
+ex:all JVM storage areas (like Heap Area,Stack Area,Method area ,PC Registers ,Native Method stacks .)once JVM Shutdown all these memory areas will be cleared automatically.
+
+2.Permanent Storage Areas:
+==========================
+also known as persistent storage areas. here we can store data permanently
+example: Files Systems, databases, Data warehouse ,Bigdata..etc
+
+File Management System:-
+A file management system is a system where data is stored in files on the operation systems, each application program must handle its own storage data, retrieval and updating .File Systems can be provided by the Local Operating System.
+
+File systems are best suitable for to store very less amount of information(like KB)
+EX:- a library management system storing books in separate text files likes,books.txt, members.txt
+
+Limitations of File Management System :-
+------------------------------------------
+1.Data Redundancy:- same data is stored in multiple files.
+2.Data Inconsistency:- updates in one file may not be retrieved .
+3.Poor Data Security:-No proper accessed control.
+4.Difficult Data retrieval:- searching requires custom programs.
+5.Integrity issues:-No constraints (eg: roll number, uniqueness)
+6.Scalability issues:- hard to manage as data grows.
+to overcome the above problems of File Systems ,we should go for databases.
+
+Data Base Management System:-
+A DBMS is a collection of programs that enables users to create,manage and manipulate databases.
+it acts as an interface between user and databases.
+
+Advantages:-
+----------
+1. we can store huge amount of information in databases.
+2.Query language support is available for every databases and hence we can perform database operations easily.
+3.to accesses data present in database ,compulsory username and password must be required. Hence data is secured.
+4.inside database data will be stored in the form of tables. While developing database table schemas,database admin follow various normalization techniques constraints,... etc which prevent data duplication . hence there is no chance of data consistency problems.
+
+Limitations of Databases:-
+-----------------------------
+1. Database cannot store huge amount of information like terabytes (1000gb)of data.
+2. Database can provide support for only structured data(tabular data or relational data )and cannot provide support for semi structured data like (xml files )and unstructured data(like video files, audiofiles, images)etc.
+
+to overcome these problems we should go for advances storage areas like bigdata ,Data warehouse etc.
+
+What are the difference between File Management System(FMS)and Database Management System(DBMS)
+===============================================================
+1. data is stored in separate files
+   data is stored in structured database.
+2. High data redundancy (duplicate data)
+   reduces data redundancy
+3. difficult to maintain and update.
+   easy to maintain and update.
+4. security is limited.
+   provides strong security mechanisms.
+5. data sharing is difficult.
+   multiple user can access data simultaneously
+6. no relationship between files.
+   supports relationship between tables.
+7. Backup and recovery are difficult.
+   provides backup and recovery features.
+8. Data inconsistency many occur anomalies.
+   maintains data inconsistency  and integrity.
+9. suitable for small applications.
+  suitable for small, medium, and large applications.
+
+Q. what is the difference between a file system and database (IQ):
+------------------------------------
+A file systems stores data in a separate files and may lead to data redundancy , and security issues, A DBMS stores data in structured data in structured manner  using tables ,reduces redundancy provides security, supports multiple users , and ensures data consistency and integrity.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

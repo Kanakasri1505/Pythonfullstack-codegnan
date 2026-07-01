@@ -1,0 +1,452 @@
+mysql> -- day5
+mysql> -- dml commands
+
+to insert:
+----------
+insert into table-name(column1,column2.......column-n)values(value1,value2......valuen)
+
+2nd approach:
+------------
+insert into table-name values(value1,value2------valuen);
+
+3 approach:
+-----------
+insert into table-name(particular columns u require) values(particular values)
+
+4 approach:
+----------
+insert into table-name set column-name=value,coulmn-name=value,........column-n=value;
+
+ 
+mysql> -- insert 
+mysql> desc employees;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| empid     | char(5)     | YES  |     | NULL    |       |
+| firstname | varchar(30) | YES  |     | NULL    |       |
+| lastname  | varchar(80) | YES  |     | NULL    |       |
+| age       | int         | YES  |     | NULL    |       |
+| doj       | date        | YES  |     | NULL    |       |
+| address   | tinytext    | YES  |     | NULL    |       |
+| dept      | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+7 rows in set (0.02 sec)
+
+mysql> insert into emplyees(empid,firstname,lastname,age,doj,address,dept)
+    -> values
+    -> ('E0012','saranya','rao',22,'2022-06-27','vsp','python');
+ERROR 1146 (42S02): Table 'pfs3.emplyees' doesn't exist
+mysql> insert into employees(empid,firstname,lastname,age,doj,address,dept)
+    -> values
+    -> ('E0012','saranya','rao',22,'2022-06-27','vsp','python');
+Query OK, 1 row affected (0.12 sec)
+
+mysql> select*employees;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employees' at line 1
+mysql> select*from employees;
++-------+-----------+----------+------+------------+---------+--------+
+| empid | firstname | lastname | age  | doj        | address | dept   |
++-------+-----------+----------+------+------------+---------+--------+
+| E0012 | saranya   | rao      |   22 | 2022-06-27 | vsp     | python |
++-------+-----------+----------+------+------------+---------+--------+
+1 row in set (0.01 sec)
+
+mysql> insert into employees(empid,firstname,lastname,age,doj,address,dept)
+    -> values
+    -> ('E0013','arun','juyal',25,'2020-05-26','hyd','python'),
+    -> ('E0014','sowmya','raghav',21,'2024-08-16','rjm','java'),
+    -> ('E0015','sowrya','aryan',24,'2023-01-15','skm','c');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select*from employees;
++-------+-----------+----------+------+------------+---------+--------+
+| empid | firstname | lastname | age  | doj        | address | dept   |
++-------+-----------+----------+------+------------+---------+--------+
+| E0012 | saranya   | rao      |   22 | 2022-06-27 | vsp     | python |
+| E0013 | arun      | juyal    |   25 | 2020-05-26 | hyd     | python |
+| E0014 | sowmya    | raghav   |   21 | 2024-08-16 | rjm     | java   |
+| E0015 | sowrya    | aryan    |   24 | 2023-01-15 | skm     | c      |
++-------+-----------+----------+------+------------+---------+--------+
+4 rows in set (0.00 sec)
+
+mysql> desc company_staff;
++---------------+----------------------------------------------------+------+-----+---------+-------+
+| Field         | Type                                               | Null | Key | Default | Extra |
++---------------+----------------------------------------------------+------+-----+---------+-------+
+| company_name  | varchar(20)                                        | YES  |     | NULL    |       |
+| emp_id        | int                                                | YES  |     | NULL    |       |
+| age           | tinyint                                            | YES  |     | NULL    |       |
+| experience    | smallint                                           | YES  |     | NULL    |       |
+| gender        | char(1)                                            | YES  |     | NULL    |       |
+| employee_name | varchar(80)                                        | YES  |     | NULL    |       |
+| qualification | varchar(20)                                        | YES  |     | NULL    |       |
+| address       | tinytext                                           | YES  |     | NULL    |       |
+| salary        | decimal(6,3)                                       | YES  |     | NULL    |       |
+| department    | enum('HR','IT','SALES','FINANCE','SUPPORT')        | YES  |     | NULL    |       |
+| status        | varchar(10)                                        | YES  |     | NULL    |       |
+| skills        | set('JAVA','PYTHON','SQL','EXCEL','COMMUNICATION') | YES  |     | NULL    |       |
+| last_updated  | date                                               | YES  |     | NULL    |       |
+| date_of_join  | date                                               | YES  |     | NULL    |       |
+| email         | varchar(20)                                        | YES  |     | NULL    |       |
++---------------+----------------------------------------------------+------+-----+---------+-------+
+15 rows in set (0.07 sec)
+
+mysql> insert into company_staff(company_name,emp_id,age,experience,gender,employee_name,qualification,address,salary,department,status,skills,last_updated,date_of_join,email)
+    -> values
+    -> ('delloite','10110',23,5,'F','saranya','btech','vsp',60000,'IT','level1','PYTHON','2022-01-16','2021-02-15','saranya@gmail.com');
+ERROR 1264 (22003): Out of range value for column 'salary' at row 1
+mysql> insert into company_staff(company_name,emp_id,age,experience,gender,employee_name,qualification,address,salary,department,status,skills,last_updated,date_of_join,email)
+    -> values
+    -> ('delloite','10110',23,5,'F','saranya','btech','vsp',6000.23,'IT','level1','PYTHON','2022-01-16','2021-02-15','saranya@gmail.com');
+ERROR 1264 (22003): Out of range value for column 'salary' at row 1
+mysql> insert into company_staff(company_name,emp_id,age,experience,gender,employee_name,qualification,address,salary,department,status,skills,last_updated,date_of_join,email)
+    -> values
+    -> ('delloite','10110',23,5,'F','saranya','btech','vsp',1000.23,'IT','level1','PYTHON','2022-01-16','2021-02-15','saranya@gmail.com');
+ERROR 1264 (22003): Out of range value for column 'salary' at row 1
+mysql> insert into employees values
+    -> ('E0016','NOEL','DSOUZA',28,'2020-03-13','BNG','SALES'),
+    -> ('E0017','MEENA','ARORA',24,'2020-08-15','KKR','FINANCE');
+Query OK, 2 rows affected (0.04 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select*from employees;
++-------+-----------+----------+------+------------+---------+---------+
+| empid | firstname | lastname | age  | doj        | address | dept    |
++-------+-----------+----------+------+------------+---------+---------+
+| E0012 | saranya   | rao      |   22 | 2022-06-27 | vsp     | python  |
+| E0013 | arun      | juyal    |   25 | 2020-05-26 | hyd     | python  |
+| E0014 | sowmya    | raghav   |   21 | 2024-08-16 | rjm     | java    |
+| E0015 | sowrya    | aryan    |   24 | 2023-01-15 | skm     | c       |
+| E0016 | NOEL      | DSOUZA   |   28 | 2020-03-13 | BNG     | SALES   |
+| E0017 | MEENA     | ARORA    |   24 | 2020-08-15 | KKR     | FINANCE |
++-------+-----------+----------+------+------------+---------+---------+
+6 rows in set (0.03 sec)
+
+mysql>  insert into company_staff(company_name,emp_id,age,experience,gender,employee_name,qualification,address,salary,department,status,skills,last_updated,date_of_join,email)
+    ->     -> values
+    -> ^C
+mysql> insert into company_staff(company_name,emp_id,age,experience,gender,employee_name,qualification,address,salary,department,status,skills,last_updated,date_of_join,email)
+    -> values
+    -> ('delloite','10110',23,5,'F','saranya','btech','vsp',1000,'IT','level1','PYTHON','2022-01-16','2021-02-15','saranya@gmail.com');
+ERROR 1264 (22003): Out of range value for column 'salary' at row 1
+mysql> insert into employees(firstname,lastname,doj,empid,location)
+    -> values
+    -> ^C
+mysql> insert into employees(firstname,lastname,doj,empid,address)
+    -> values
+    -> ('karunya','narain','2012-09-19','E0018','pjb');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select*from employees;
++-------+-----------+----------+------+------------+---------+---------+
+| empid | firstname | lastname | age  | doj        | address | dept    |
++-------+-----------+----------+------+------------+---------+---------+
+| E0012 | saranya   | rao      |   22 | 2022-06-27 | vsp     | python  |
+| E0013 | arun      | juyal    |   25 | 2020-05-26 | hyd     | python  |
+| E0014 | sowmya    | raghav   |   21 | 2024-08-16 | rjm     | java    |
+| E0015 | sowrya    | aryan    |   24 | 2023-01-15 | skm     | c       |
+| E0016 | NOEL      | DSOUZA   |   28 | 2020-03-13 | BNG     | SALES   |
+| E0017 | MEENA     | ARORA    |   24 | 2020-08-15 | KKR     | FINANCE |
+| E0018 | karunya   | narain   | NULL | 2012-09-19 | pjb     | NULL    |
++-------+-----------+----------+------+------------+---------+---------+
+7 rows in set (0.01 sec)
+
+mysql> insert into employees set empid='E0019',firstname='naman',lastname='josh',age=29,doj='2021-09-13',address='kolkata',dept='admin';
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select*from employees;
++-------+-----------+----------+------+------------+---------+---------+
+| empid | firstname | lastname | age  | doj        | address | dept    |
++-------+-----------+----------+------+------------+---------+---------+
+| E0012 | saranya   | rao      |   22 | 2022-06-27 | vsp     | python  |
+| E0013 | arun      | juyal    |   25 | 2020-05-26 | hyd     | python  |
+| E0014 | sowmya    | raghav   |   21 | 2024-08-16 | rjm     | java    |
+| E0015 | sowrya    | aryan    |   24 | 2023-01-15 | skm     | c       |
+| E0016 | NOEL      | DSOUZA   |   28 | 2020-03-13 | BNG     | SALES   |
+| E0017 | MEENA     | ARORA    |   24 | 2020-08-15 | KKR     | FINANCE |
+| E0018 | karunya   | narain   | NULL | 2012-09-19 | pjb     | NULL    |
+| E0019 | naman     | josh     |   29 | 2021-09-13 | kolkata | admin   |
++-------+-----------+----------+------+------------+---------+---------+
+8 rows in set (0.00 sec)
+
+UPDATE:
+------
+syntax:
+------
+update table-name set column-name=value where condition;
+
+mysql> update employees set lastname='gopal' where firstname='karunya';
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employees set age=25 where empid='E0018';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employees set dept='IT' where address='hyd';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from employees;
++-------+-----------+----------+------+------------+---------+---------+
+| empid | firstname | lastname | age  | doj        | address | dept    |
++-------+-----------+----------+------+------------+---------+---------+
+| E0012 | saranya   | rao      |   22 | 2022-06-27 | vsp     | python  |
+| E0013 | arun      | juyal    |   25 | 2020-05-26 | hyd     | IT      |
+| E0014 | sowmya    | raghav   |   21 | 2024-08-16 | rjm     | java    |
+| E0015 | sowrya    | aryan    |   24 | 2023-01-15 | skm     | c       |
+| E0016 | NOEL      | DSOUZA   |   28 | 2020-03-13 | BNG     | SALES   |
+| E0017 | MEENA     | ARORA    |   24 | 2020-08-15 | KKR     | FINANCE |
+| E0018 | karunya   | gopal    |   25 | 2012-09-19 | pjb     | NULL    |
+| E0019 | naman     | josh     |   29 | 2021-09-13 | kolkata | admin   |
++-------+-----------+----------+------+------------+---------+---------+
+8 rows in set (0.00 sec)
+
+mysql> update employees set dept='admin' where lastname='gopal';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from employees;
++-------+-----------+----------+------+------------+---------+---------+
+| empid | firstname | lastname | age  | doj        | address | dept    |
++-------+-----------+----------+------+------------+---------+---------+
+| E0012 | saranya   | rao      |   22 | 2022-06-27 | vsp     | python  |
+| E0013 | arun      | juyal    |   25 | 2020-05-26 | hyd     | IT      |
+| E0014 | sowmya    | raghav   |   21 | 2024-08-16 | rjm     | java    |
+| E0015 | sowrya    | aryan    |   24 | 2023-01-15 | skm     | c       |
+| E0016 | NOEL      | DSOUZA   |   28 | 2020-03-13 | BNG     | SALES   |
+| E0017 | MEENA     | ARORA    |   24 | 2020-08-15 | KKR     | FINANCE |
+| E0018 | karunya   | gopal    |   25 | 2012-09-19 | pjb     | admin   |
+| E0019 | naman     | josh     |   29 | 2021-09-13 | kolkata | admin   |
++-------+-----------+----------+------+------------+---------+---------+
+8 rows in set (0.00 sec)
+
+mysql> update employees set doj='2026-06-27' where empid='E0017;
+    '> ^C
+mysql> update employees set doj='2026-06-27' where empid='E0017';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from employees;
++-------+-----------+----------+------+------------+---------+---------+
+| empid | firstname | lastname | age  | doj        | address | dept    |
++-------+-----------+----------+------+------------+---------+---------+
+| E0012 | saranya   | rao      |   22 | 2022-06-27 | vsp     | python  |
+| E0013 | arun      | juyal    |   25 | 2020-05-26 | hyd     | IT      |
+| E0014 | sowmya    | raghav   |   21 | 2024-08-16 | rjm     | java    |
+| E0015 | sowrya    | aryan    |   24 | 2023-01-15 | skm     | c       |
+| E0016 | NOEL      | DSOUZA   |   28 | 2020-03-13 | BNG     | SALES   |
+| E0017 | MEENA     | ARORA    |   24 | 2026-06-27 | KKR     | FINANCE |
+| E0018 | karunya   | gopal    |   25 | 2012-09-19 | pjb     | admin   |
+| E0019 | naman     | josh     |   29 | 2021-09-13 | kolkata | admin   |
++-------+-----------+----------+------+------------+---------+---------+
+8 rows in set (0.00 sec)
+
+DELETE:
+------
+syntax:
+-------
+delete from table-name where condition;
+mysql> delete from employees where empid='E0016';
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select*from employees;
++-------+-----------+----------+------+------------+---------+---------+
+| empid | firstname | lastname | age  | doj        | address | dept    |
++-------+-----------+----------+------+------------+---------+---------+
+| E0012 | saranya   | rao      |   22 | 2022-06-27 | vsp     | python  |
+| E0013 | arun      | juyal    |   25 | 2020-05-26 | hyd     | IT      |
+| E0014 | sowmya    | raghav   |   21 | 2024-08-16 | rjm     | java    |
+| E0015 | sowrya    | aryan    |   24 | 2023-01-15 | skm     | c       |
+| E0017 | MEENA     | ARORA    |   24 | 2026-06-27 | KKR     | FINANCE |
+| E0018 | karunya   | gopal    |   25 | 2012-09-19 | pjb     | admin   |
+| E0019 | naman     | josh     |   29 | 2021-09-13 | kolkata | admin   |
++-------+-----------+----------+------+------------+---------+---------+
+7 rows in set (0.01 sec)
+
+mysql> delete from employees where firstname='sowmya';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from employees;
++-------+-----------+----------+------+------------+---------+---------+
+| empid | firstname | lastname | age  | doj        | address | dept    |
++-------+-----------+----------+------+------------+---------+---------+
+| E0012 | saranya   | rao      |   22 | 2022-06-27 | vsp     | python  |
+| E0013 | arun      | juyal    |   25 | 2020-05-26 | hyd     | IT      |
+| E0015 | sowrya    | aryan    |   24 | 2023-01-15 | skm     | c       |
+| E0017 | MEENA     | ARORA    |   24 | 2026-06-27 | KKR     | FINANCE |
+| E0018 | karunya   | gopal    |   25 | 2012-09-19 | pjb     | admin   |
+| E0019 | naman     | josh     |   29 | 2021-09-13 | kolkata | admin   |
++-------+-----------+----------+------+------------+---------+---------+
+6 rows in set (0.01 sec)
+
+mysql> delete from employees where age>=25;
+Query OK, 3 rows affected (0.01 sec)
+
+mysql> select*from employees;
++-------+-----------+----------+------+------------+---------+---------+
+| empid | firstname | lastname | age  | doj        | address | dept    |
++-------+-----------+----------+------+------------+---------+---------+
+| E0012 | saranya   | rao      |   22 | 2022-06-27 | vsp     | python  |
+| E0015 | sowrya    | aryan    |   24 | 2023-01-15 | skm     | c       |
+| E0017 | MEENA     | ARORA    |   24 | 2026-06-27 | KKR     | FINANCE |
++-------+-----------+----------+------+------------+---------+---------+
+3 rows in set (0.00 sec)
+
+TRUNCATE:
+--------
+syntax:
+-------
+truncate table employees;
+
+
+mysql> truncate table employees;
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> select*from employees;
+Empty set (0.01 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_pfs3 |
++----------------+
+| company_staff  |
+| employees      |
++----------------+
+2 rows in set (0.04 sec)
+
+mysql> drop employees;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employees' at line 1
+mysql> drop tables employees;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_pfs3 |
++----------------+
+| company_staff  |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> create table employees(
+    -> empid int auto_increment,
+    -> name varchar(100),
+    -> department varchar(50)
+    -> ^C
+mysql> create table employees(
+    -> empid int auto_increment primary key,
+    -> name varchar(100),
+    -> department varchar(50));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc employees;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| empid      | int          | NO   | PRI | NULL    | auto_increment |
+| name       | varchar(100) | YES  |     | NULL    |                |
+| department | varchar(50)  | YES  |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.01 sec)
+
+mysql> insert into employees(name,department) 
+    -> values
+    -> ('arun','IT'),('karunya','HR'),('sai','admin');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select*from employees;
++-------+---------+------------+
+| empid | name    | department |
++-------+---------+------------+
+|     1 | arun    | IT         |
+|     2 | karunya | HR         |
+|     3 | sai     | admin      |
++-------+---------+------------+
+3 rows in set (0.00 sec)
+
+-->auto increment only works for int type if we use that by default it increments the value by itself
+
+
+--> to create an exact table from already existing table
+
+mysql> create table backupemployees as select
+    -> *from employees;
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> desc backupemployees;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| empid      | int          | NO   |     | 0       |       |
+| name       | varchar(100) | YES  |     | NULL    |       |
+| department | varchar(50)  | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> select*from backupemployees;
++-------+---------+------------+
+| empid | name    | department |
++-------+---------+------------+
+|     1 | arun    | IT         |
+|     2 | karunya | HR         |
+|     3 | sai     | admin      |
++-------+---------+------------+
+3 rows in set (0.00 sec)
+
+
+
+COMPUTED COLUMNS:
+----------------
+
+mysql> create table products(
+    -> productid int primary key,
+    -> price decimal(10,2),
+    -> quantity int,
+    -> totalamount decimal(10,2) generated always as(price*quantity) stored);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into products(productid,price,quantity)
+    -> values
+    -> (1,50,3),
+    -> (2,100.25,6);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select*from products;
++-----------+--------+----------+-------------+
+| productid | price  | quantity | totalamount |
++-----------+--------+----------+-------------+
+|         1 |  50.00 |        3 |      150.00 |
+|         2 | 100.25 |        6 |      601.50 |
++-----------+--------+----------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> update products set price=100 where productid=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from products;
++-----------+--------+----------+-------------+
+| productid | price  | quantity | totalamount |
++-----------+--------+----------+-------------+
+|         1 | 100.00 |        3 |      300.00 |
+|         2 | 100.25 |        6 |      601.50 |
++-----------+--------+----------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_pfs3  |
++-----------------+
+| backupemployees |
+| company_staff   |
+| employees       |
+| products        |
++-----------------+
+4 rows in set (0.00 sec)
+
+mysql> notee

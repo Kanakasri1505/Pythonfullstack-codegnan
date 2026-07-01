@@ -1,0 +1,160 @@
+DAY3:
+======
+SQL Identifiers:
+----------------
+SQL Identifiers are the names that used to identify Database objects such as 
+Database names , table names , column names , view names , index names , constraints , triggers ,stored procedures.
+
+while we are declaring an Identifier we have to follow some rules and regulations.
+
+1. The only allowed characters to declare Identifiers are a-z or A-Z or 0-9 or _ or $.
+2. Must begin with a letter or _ (underscore).
+3. We cant declare Identifiers with reserved keywords.
+4. Spaces are not considered to declare Identifiers.
+5. Identifiers are case sensitive.
+6. Max length to declare identifiers are 15 characters.
+
+SQL:
+----
+(Structured Query Language)
+
+Structured Query Language (SQL) is a standardized programming language designed for managing and manipulating relational databases.
+It provides declarative syntax that allows users to define what they want to retrieve, insert , update , delete without specifying exactly
+how database executes these operations.
+
+Types of SQL Commands:
+--------------------- 
+Categorized into 5 types:
+1.DDL         2. DML         3. DCL        4.TCL           5.DQL
+CREATE          INSERT         GRANT       COMMIT          SELECT
+ALTER           UPDATE         REVOKE      ROLLBACK
+DROP            DELETE                     SAVEPOINT
+TRUNCATE        LOCK
+RENAME
+
+-->DDL (Data Definition Language):
+------------------------------------
+1.create: By using this command we can create new Databases , tables , views , indexes , trigger , stored procedure etc
+
+create database:
+----------------
+syntax: create database database-name;
+ex: create database pfs3;
+
+create table:
+------------
+syntax: create table table-name(column-name data-type size constraint, --->constraint is optional
+                                column-name data-type size constraint,
+                                -------------------------------------
+                                -------------------------------------);
+
+2.alter: By using alter command we can modify the structure of an existing Database object.
+
+3.drop: By using this command we can drop database object or table permanently.
+
+4.truncate: By using this command we can delete all rows in the table.
+
+5.rename: It is used to rename the table names or column names etc.
+
+-->DML (Data Manipulation Language):
+------------------------------------
+1.insert: By using this command we can insert some records into a table.
+
+2.update: By using this command we can update the existing records based on some condition.
+
+3.delete: By using this command we can delete the existing table records based on some condition.
+
+4.lock: By using this command to control access to a resource, ensuring that only one transaction. can access it at the time of preventing conflicts.
+
+-->DCL (Data Control Language):
+------------------------------
+1.grant: This command is used to give specific permission to a user in database. this permission might be include the ability to select or update or delete data as we create or drop tables.
+
+2.revoke: This command is used to takeaway granted permission from user.
+
+--> TCL (Transaction Control Language):
+--------------------------------------
+1.commit: This command is used to permanently save the changes made during the current transaction. once transaction is committed its changes become 
+permanent and visible to other transactions.
+
+2.rollback: if an error occurs or if transaction needs to be canceled  for any reason rollback is issued to revert the database.
+in simple it is used to undo operations changes made during the current transactions.
+
+3.savepoint: it is used to set a point within a transaction who which you can later rollback.
+
+--> DQL (Data Query Language):
+------------------------------
+1.select: this command is used to retrieve data from one or more tables in a database.
+
+
+
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| pfs3               |
+| sys                |
++--------------------+
+5 rows in set (0.06 sec)
+
+mysql> create database PFS3;
+ERROR 1007 (HY000): Can't create database 'pfs3'; database exists
+mysql> use pfs3;
+Database changed
+mysql> create table employees(
+    -> empid char(5),
+    -> fname varchar(100),
+    -> lname varchar(30),
+    -> age int,
+    -> doj date,
+    -> address tinytext,
+    -> dept varchar(20)
+    -> );
+Query OK, 0 rows affected (0.23 sec)
+
+mysql> -- to show the table description
+mysql> desc employees;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| empid   | char(5)      | YES  |     | NULL    |       |
+| fname   | varchar(100) | YES  |     | NULL    |       |
+| lname   | varchar(30)  | YES  |     | NULL    |       |
+| age     | int          | YES  |     | NULL    |       |
+| doj     | date         | YES  |     | NULL    |       |
+| address | tinytext     | YES  |     | NULL    |       |
+| dept    | varchar(20)  | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+7 rows in set (0.05 sec)
+
+mysql> show columns from employees;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| empid   | char(5)      | YES  |     | NULL    |       |
+| fname   | varchar(100) | YES  |     | NULL    |       |
+| lname   | varchar(30)  | YES  |     | NULL    |       |
+| age     | int          | YES  |     | NULL    |       |
+| doj     | date         | YES  |     | NULL    |       |
+| address | tinytext     | YES  |     | NULL    |       |
+| dept    | varchar(20)  | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql>mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| pfs3               |
+| sys                |
++--------------------+
+5 rows in set (0.01 sec)
+
+mysql> Terminal close -- exit!

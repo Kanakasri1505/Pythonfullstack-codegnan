@@ -1,0 +1,439 @@
+day 6:
+======
+
+DCL commands  : to grant or revoke permission to user.
+grant and revoke
+
+common permissions:
+select , insert, update, delete, all privileges(anything is permitted) 
+
+to create user:
+create user "username" identified by "password"
+
+to grant permission:
+grant privilege on table_name to username
+
+to revoke permission:
+revoke privilege on table_name to username
+
+mysql> use pfs3;
+Database changed
+mysql> create table students(
+    -> student_id varchar(20),
+    -> name varchar(50),
+    -> mobile_no int);
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> insert into students values
+    -> ^C
+mysql> drop table students;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table students(
+    -> student_id int,
+    -> name varchar(50),
+    -> mobile varchar(50));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into students values
+    -> (111,'saranya','9807652345'),
+    -> (112,'sowrya','6789054321');
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select*from students;
++------------+---------+------------+
+| student_id | name    | mobile     |
++------------+---------+------------+
+|        111 | saranya | 9807652345 |
+|        112 | sowrya  | 6789054321 |
++------------+---------+------------+
+2 rows in set (0.02 sec)
+
+mysql> create user naman identified by 'naman1234';
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> create user myrah identified by 'myrah1505';
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> grant select,update on students to naman;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> grant insert,udate,delete on students to myrah;
+ERROR 3619 (HY000): Illegal privilege level specified for students
+mysql> grant insert,update,delete on students to myrah;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> grant select on students to myrah;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> revoke update on students from naman;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> revoke delete on students from myrah;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delete user naman;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'naman' at line 1
+mysql> drop user naman;
+Query OK, 0 rows affected (0.03 sec)
+
+to check namans permisiions:
+
+cdrive->programfiles->mysql->server->bin backspace->cmd
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u naman -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.43 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use pfs3;
+Database changed
+mysql> select*from students;
++------------+---------+------------+
+| student_id | name    | mobile     |
++------------+---------+------------+
+|        111 | saranya | 9807652345 |
+|        112 | sowrya  | 6789054321 |
++------------+---------+------------+
+2 rows in set (0.00 sec)
+
+mysql> update students set name='arun' where student_id=112;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from students;
++------------+---------+------------+
+| student_id | name    | mobile     |
++------------+---------+------------+
+|        111 | saranya | 9807652345 |
+|        112 | arun    | 6789054321 |
++------------+---------+------------+
+2 rows in set (0.00 sec)
+
+mysql> delete from students where student_id=111;
+ERROR 1142 (42000): DELETE command denied to user 'naman'@'localhost' for table 'students'
+mysql> drop table students;
+ERROR 1142 (42000): DROP command denied to user 'naman'@'localhost' for table 'students'
+mysql> update students set name='aman' where student_id=112;
+ERROR 1142 (42000): UPDATE command denied to user 'naman'@'localhost' for table 'students'
+mysql> drop user naman;
+ERROR 1227 (42000): Access denied; you need (at least one of) the CREATE USER privilege(s) for this operation
+mysql>
+
+myrah:
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u myrah -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.43 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use pfs3;
+Database changed
+mysql> selct*from students;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selct*from students' at line 1
+mysql> select*from students;
+ERROR 1142 (42000): SELECT command denied to user 'myrah'@'localhost' for table 'students'
+mysql> insert into students values(113,'mahi','9870654321'),(114,'kohli','7658906543');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> update students set name='mani' where student_id=113;
+ERROR 1143 (42000): SELECT command denied to user 'myrah'@'localhost' for column 'student_id' in table 'students'
+mysql> update students set name='mani' where student_id=113;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from students;
++------------+---------+------------+
+| student_id | name    | mobile     |
++------------+---------+------------+
+|        111 | saranya | 9807652345 |
+|        112 | arun    | 6789054321 |
+|        113 | mani    | 9870654321 |
+|        114 | kohli   | 7658906543 |
++------------+---------+------------+
+4 rows in set (0.00 sec)
+
+mysql> delete from students where student_id=113;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from students;
++------------+---------+------------+
+| student_id | name    | mobile     |
++------------+---------+------------+
+|        111 | saranya | 9807652345 |
+|        112 | arun    | 6789054321 |
+|        114 | kohli   | 7658906543 |
++------------+---------+------------+
+3 rows in set (0.00 sec)
+
+mysql> drop table students;
+ERROR 1142 (42000): DROP command denied to user 'myrah'@'localhost' for table 'students'
+mysql> delete from students where student_id=112;
+ERROR 1142 (42000): DELETE command denied to user 'myrah'@'localhost' for table 'students'
+mysql>
+
+TRANSACTIONS:
+=============
+a transaction is a sequence of one or more sql operations executed as a single logical unit of work.
+it ensures that either all operations are completely successfully or none of them are applied to the database.
+
+****interview one-line answer
+------------------------
+a transaction is a logical unit of work consisting one or more sql statements that follows the ACID properties 
+to maintain data integrity and consistency.
+
+****ACID properties:
+---------------
+A--> Atomicity: either all operations happens or none happen.
+C--> Consistency: the database remains in a valid state before and after the transaction.
+I-->Isolation: concurrent transactions do not interface with each other.
+D-->Durability: once committed changes are permanent even if the system crashes.
+
+TCL commands:
+-------------
+(start transaction or begin works on virtual database table not original one )
+commit(then updates the original dtaabase)
+rollback(works untill commit is clicked)
+save point
+
+
+mysql> select*from students;
++------------+---------+------------+
+| student_id | name    | mobile     |
++------------+---------+------------+
+|        111 | saranya | 9807652345 |
+|        112 | arun    | 6789054321 |
+|        114 | kohli   | 7658906543 |
++------------+---------+------------+
+3 rows in set (0.06 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> update students set name='sharma' where student_id=114;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from students;
++------------+---------+------------+
+| student_id | name    | mobile     |
++------------+---------+------------+
+|        111 | saranya | 9807652345 |
+|        112 | arun    | 6789054321 |
+|        114 | sharma  | 7658906543 |
++------------+---------+------------+
+3 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select*from students;
++------------+---------+------------+
+| student_id | name    | mobile     |
++------------+---------+------------+
+|        111 | saranya | 9807652345 |
+|        112 | arun    | 6789054321 |
+|        114 | kohli   | 7658906543 |
++------------+---------+------------+
+3 rows in set (0.00 sec)
+
+mysql> update students set name='sharma' where student_id=114;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select*from students;
++------------+---------+------------+
+| student_id | name    | mobile     |
++------------+---------+------------+
+|        111 | saranya | 9807652345 |
+|        112 | arun    | 6789054321 |
+|        114 | sharma  | 7658906543 |
++------------+---------+------------+
+3 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select*from students;
++------------+---------+------------+
+| student_id | name    | mobile     |
++------------+---------+------------+
+|        111 | saranya | 9807652345 |
+|        112 | arun    | 6789054321 |
+|        114 | sharma  | 7658906543 |
++------------+---------+------------+
+3 rows in set (0.00 sec)
+
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into student values (115,'suma','987654321');
+ERROR 1146 (42S02): Table 'pfs3.student' doesn't exist
+mysql> insert into students values (115,'suma','987654321');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> selct*from students;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selct*from students' at line 1
+mysql> select*from students;
++------------+---------+------------+
+| student_id | name    | mobile     |
++------------+---------+------------+
+|        111 | saranya | 9807652345 |
+|        112 | arun    | 6789054321 |
+|        114 | sharma  | 7658906543 |
+|        115 | suma    | 987654321  |
++------------+---------+------------+
+4 rows in set (0.00 sec)
+
+mysql> update students set name='mahesh' where student_id=111;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from students;
++------------+--------+------------+
+| student_id | name   | mobile     |
++------------+--------+------------+
+|        111 | mahesh | 9807652345 |
+|        112 | arun   | 6789054321 |
+|        114 | sharma | 7658906543 |
+|        115 | suma   | 987654321  |
++------------+--------+------------+
+4 rows in set (0.00 sec)
+
+mysql> delete from students where student_id=112;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from students;
++------------+--------+------------+
+| student_id | name   | mobile     |
++------------+--------+------------+
+|        111 | mahesh | 9807652345 |
+|        114 | sharma | 7658906543 |
+|        115 | suma   | 987654321  |
++------------+--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select*from students;
++------------+---------+------------+
+| student_id | name    | mobile     |
++------------+---------+------------+
+|        111 | saranya | 9807652345 |
+|        112 | arun    | 6789054321 |
+|        114 | sharma  | 7658906543 |
++------------+---------+------------+
+3 rows in set (0.00 sec)
+
+mysql> -- disadvantage of rollback is that entire transaction is undo if i only want to undo one 
+mysql> -- like only delete also it does not happen using rollback
+mysql> -- thats why we use save point 
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into students values (115,'suma','987654321');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> update students set name='mahesh' where student_id=111;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> savepoint sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from students where student_id=112;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> rollback to sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select*from students;
++------------+--------+------------+
+| student_id | name   | mobile     |
++------------+--------+------------+
+|        111 | mahesh | 9807652345 |
+|        112 | arun   | 6789054321 |
+|        114 | sharma | 7658906543 |
+|        115 | suma   | 987654321  |
++------------+--------+------------+
+4 rows in set (0.00 sec)
+
+mysql> delete from students where student_id=112;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select*from students;
++------------+--------+------------+
+| student_id | name   | mobile     |
++------------+--------+------------+
+|        111 | mahesh | 9807652345 |
+|        114 | sharma | 7658906543 |
+|        115 | suma   | 987654321  |
++------------+--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> -- concept of lock
+mysql> -- step1: set transaction isolation level read commited
+mysql> set transaction isolation level read commited;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'commited' at line 1
+mysql> set transaction isolation level read committed;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select*from students where studnet_id=115 for update;
+ERROR 1054 (42S22): Unknown column 'studnet_id' in 'where clause'
+mysql> select*from students where student_id=115 for update;
++------------+------+-----------+
+| student_id | name | mobile    |
++------------+------+-----------+
+|        115 | suma | 987654321 |
++------------+------+-----------+
+1 row in set (0.01 sec)
+
+mysql> update students set name='arun' where student_id=115;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select*from students;
++------------+--------+------------+
+| student_id | name   | mobile     |
++------------+--------+------------+
+|        111 | mahesh | 9807652345 |
+|        114 | sharma | 7658906543 |
+|        115 | arun   | 987654321  |
++------------+--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> Terminal close -- exit!

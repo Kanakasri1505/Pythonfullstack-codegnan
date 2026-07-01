@@ -1,0 +1,128 @@
+ DAY 7:
+========
+Constraints:
+-----------
+constraints are rules applied to a table columns in MySQL to ensure that only valid and accurate data is stored in the database.
+
+why to use constraints?
+----------------------
+-> to maintain data integrity
+->to prevent invalid data entry
+->avoid duplicate records
+->ensures relations between tables 
+->makes the database reliable and constrained.
+
+Types of constraints:
+--------------------
+1.not null constraint 
+:doesn't allow null values(allows duplicates)
+
+2.unique key 
+: it does not allow duplicate values(duplictae null values is allowed)
+
+3.primary key (column  and table level)
+:it is the combination of unique+not null
+
+4.composite key
+:apply primary key at two or more colums
+:primary key at table level (considers as key:value pairs consider all the columns mentioned in it as a single record)
+
+5.foreign key(***)
+: a foreign key is a key used to link two tables together.
+
+->a foreign key is afield or collection of fields in one table that refers to the primary key in another table.
+
+->the table containing the foreign key is called child table and the table containing the candidate key is called references table or parent table.
+
+
+6.check constraint
+: checks condition if true only the command works
+
+7.default constraint
+:to take systems date and time defaultly 
+
+
+REFERENTIAL ACTIONS:
+-------------------
+referential actions define what happens to the child table data when parent table data is updated or deleted.
+
+they are used with foreign key constraints.
+
+1.on delete cascade
+when a parent table row is deleted all matching child rows are automatically deleted
+
+2.on update cascade
+when a parent key is updated all matching child foreign keys are updated automatically
+
+
+mysql> create table dept(
+    -> ^C
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| pfs3               |
+| sys                |
++--------------------+
+5 rows in set (0.20 sec)
+
+mysql> create database details;
+Query OK, 1 row affected (0.04 sec)
+
+mysql> use details;
+Database changed
+mysql> create table dept(
+    -> dept_id int(5),
+    -> dept_name varchar(30),
+    -> primary key(dept_id));
+Query OK, 0 rows affected, 1 warning (0.09 sec)
+
+mysql> create table employee(
+    -> dept_id int(5),
+    -> emp_id int(10),
+    -> emp_name varchar(30),
+    -> foreign key(dept_id)
+    -> references dept(dept_id) on delete setnull on update setnull);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'setnull on update setnull)' at line 6
+mysql> create table employee(
+    -> dept_id int(5),
+    -> emp_id int(10),
+    -> emp_name varchar(30),
+    -> foreign key(dept_id)
+    -> references dept(dept_id) on delete set null on update set null);
+Query OK, 0 rows affected, 2 warnings (0.04 sec)
+
+mysql> insert into dept values (1,'HR'),(2,'IT'),(3,'SALES');
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select*from dept;
++---------+-----------+
+| dept_id | dept_name |
++---------+-----------+
+|       1 | HR        |
+|       2 | IT        |
+|       3 | SALES     |
++---------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> insert into employees (emp_id,emp_name) values(111,'hari'),(112,'ramu'),(113,'leela');
+ERROR 1146 (42S02): Table 'details.employees' doesn't exist
+mysql> insert into employee (emp_id,emp_name) values(111,'hari'),(112,'ramu'),(113,'leela');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select*from employee;
++---------+--------+----------+
+| dept_id | emp_id | emp_name |
++---------+--------+----------+
+|    NULL |    111 | hari     |
+|    NULL |    112 | ramu     |
+|    NULL |    113 | leela    |
++---------+--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> Terminal close -- exit!
